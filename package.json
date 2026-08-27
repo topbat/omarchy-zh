@@ -8,7 +8,10 @@
     "test": "node --test",
     "build": "node src/build.mjs",
     "check": "node src/validate.mjs",
-    "dev": "node src/serve.mjs"
+    "dev": "node src/serve.mjs",
+    "upstream:check": "node src/sync-upstream.mjs --check",
+    "upstream:sync": "node src/sync-upstream.mjs --apply",
+    "verify": "npm test && npm run build && npm run check"
   },
   "dependencies": {
     "highlight.js": "^11.11.1",

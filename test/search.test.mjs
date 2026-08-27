@@ -7,7 +7,7 @@ import { buildSearchIndex, searchIndex } from '../src/search.mjs';
 test('buildSearchIndex emits one localized entry per chapter', async () => {
   const chapters = await loadChapters(path.resolve('translations'));
   const index = buildSearchIndex(chapters);
-  assert.equal(index.length, 51);
+  assert.equal(index.length, chapters.length);
   assert.equal(index[0].url, '/manual/');
   assert.match(index[0].title, /Omarchy/);
   assert.equal(index.at(-1).url, '/manual/unattended-installs/');

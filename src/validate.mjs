@@ -140,6 +140,9 @@ export async function collectSiteIssues({
   ]);
   const upstreamByFilename = new Map(upstreamChapters.map((chapter) => [chapter.filename, chapter]));
   const imageTargets = new Set();
+  const expectedImageTargets = new Set(
+    upstreamChapters.flatMap((chapter) => extractImageTargets(chapter.markdown)),
+  );
 
   for (const chapter of translatedChapters) {
     const upstream = upstreamByFilename.get(chapter.filename);
@@ -168,14 +171,15 @@ export async function collectSiteIssues({
     }
   }
 
-  if (imageTargets.size !== 82) {
-    issues.push(`expected 82 unique image targets, found ${imageTargets.size}`);
+  if (imageTargets.size !== expectedImageTargets.size) {
+    issues.push(`expected ${expectedImageTargets.size} unique image targets, found ${imageTargets.size}`);
   }
 
   const htmlFiles = (await walk(path.join(outputDirectory, 'manual')))
     .filter((filename) => filename.endsWith('index.html'));
-  if (htmlFiles.length !== 52) {
-    issues.push(`expected 52 generated manual pages, found ${htmlFiles.length}`);
+  const expectedHtmlPageCount = translatedChapters.length + 1;
+  if (htmlFiles.length !== expectedHtmlPageCount) {
+    issues.push(`expected ${expectedHtmlPageCount} generated manual pages, found ${htmlFiles.length}`);
   }
   issues.push(...await validateGeneratedLinks(outputDirectory, htmlFiles));
 

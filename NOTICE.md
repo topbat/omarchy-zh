@@ -2,7 +2,7 @@
 
 ## Omarchy manual content and images
 
-The English manual source, logo text, 44 manual WebP images and 38 theme preview PNG images were captured from the `quattro` branch of [`basecamp/omarchy`](https://github.com/basecamp/omarchy) at commit `0ae1694830b6bd9511042fe1b89a0062d8c083cb`.
+The English manual source and referenced images are captured from the `quattro` branch of [`basecamp/omarchy`](https://github.com/basecamp/omarchy). The exact source revision is recorded in `upstream/COMMIT`; the initial snapshot contains 44 manual WebP images and 38 referenced theme preview PNG images. The logo text was captured from the official Omarchy site.
 
 Copyright (c) David Heinemeier Hansson. The upstream MIT license is preserved at `upstream/LICENSE`.
 

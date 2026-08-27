@@ -22,8 +22,8 @@ test('markdown structure extractors preserve literal technical content', () => {
 
 test('all translated chapters preserve official code, images, and link targets', async () => {
   const report = await compareManuals(upstreamDir, translationsDir);
-  assert.equal(report.upstreamCount, 51);
-  assert.equal(report.translationCount, 51);
+  assert.ok(report.upstreamCount > 0);
+  assert.equal(report.translationCount, report.upstreamCount);
   assert.deepEqual(report.missingFiles, []);
   assert.deepEqual(report.extraFiles, []);
   assert.deepEqual(report.codeBlockMismatches, []);

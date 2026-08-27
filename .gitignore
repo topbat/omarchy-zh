@@ -3,7 +3,7 @@ node_modules/
 dist/
 site/
 coverage/
+.sync-*/
 *.log
 .DS_Store
 Thumbs.db
-

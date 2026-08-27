@@ -1,0 +1,90 @@
+name: Omarchy upstream sync
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Translate the changed chapters and open a pull request
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      needs_update: ${{ steps.upstream.outputs.needs_update }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - id: upstream
+        name: Compare pinned and upstream commits
+        shell: bash
+        run: |
+          set +e
+          npm run upstream:check -- --json
+          status=$?
+          set -e
+          if [ "$status" -eq 2 ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+          elif [ "$status" -eq 0 ]; then
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+          else
+            exit "$status"
+          fi
+      - name: Surface scheduled drift
+        if: github.event_name == 'schedule' && steps.upstream.outputs.needs_update == 'true'
+        run: |
+          echo "::error::Omarchy quattro changed. Run this workflow manually with apply enabled."
+          exit 1
+
+  apply:
+    needs: check
+    if: github.event_name == 'workflow_dispatch' && inputs.apply && needs.check.outputs.needs_update == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      OMARCHY_TRANSLATION_API_URL: ${{ vars.OMARCHY_TRANSLATION_API_URL }}
+      OMARCHY_TRANSLATION_MODEL: ${{ vars.OMARCHY_TRANSLATION_MODEL }}
+      OMARCHY_TRANSLATION_API_KEY: ${{ secrets.OMARCHY_TRANSLATION_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Translate and validate upstream changes
+        run: npm run upstream:sync
+      - name: Run full verification
+        run: npm run verify
+      - name: Create review pull request
+        shell: bash
+        run: |
+          commit=$(grep -E '^Commit:' upstream/COMMIT | awk '{print $2}')
+          branch="automation/upstream-sync-${commit:0:12}-$(date -u +%Y%m%d%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add upstream translations
+          git diff --cached --check
+          git commit -m "docs: sync Omarchy manual ${commit:0:12}"
+          git push --set-upstream origin "$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "docs: sync Omarchy manual ${commit:0:12}" \
+            --body $'## Summary\n\n- sync the pinned Omarchy quattro snapshot\n- translate changed manual chapters into Simplified Chinese\n- preserve and validate code, links, images, and heading structure\n\n## Verification\n\n- `npm run verify`\n\nThis pull request is intentionally not auto-merged. Review the Chinese wording and visual output before merging.'
