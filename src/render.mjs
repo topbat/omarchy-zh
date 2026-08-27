@@ -82,8 +82,35 @@ markdown.renderer.rules.image = (tokens, index, options, environment, self) => {
   return defaultImage(tokens, index, options, environment, self);
 };
 
-export function renderManualMarkdown(source) {
-  return markdown.render(source);
+function headingSlugs(source) {
+  return [...source.matchAll(/^#{2,6}\s+(.+)$/gm)]
+    .map((match) => slugifyHeading(match[1].replace(/[`_*~\[\]]/g, '')));
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function renderManualMarkdown(source, { anchorSource } = {}) {
+  let html = markdown.render(source);
+  if (!anchorSource) {
+    return html;
+  }
+
+  const translatedSlugs = headingSlugs(source);
+  const officialSlugs = headingSlugs(anchorSource);
+  for (const [index, officialSlug] of officialSlugs.entries()) {
+    const translatedSlug = translatedSlugs[index];
+    if (!officialSlug || !translatedSlug || officialSlug === translatedSlug) {
+      continue;
+    }
+    const headingPattern = new RegExp(`(<h[2-6]\\s+id="${escapeRegExp(translatedSlug)}")`);
+    html = html.replace(
+      headingPattern,
+      `<span class="heading-alias" id="${escapeHtml(officialSlug)}" aria-hidden="true"></span>$1`,
+    );
+  }
+  return html;
 }
 
 function stylesheetLinks() {
@@ -160,7 +187,7 @@ function renderPagination(chapter, chapters) {
 }
 
 export function renderChapterPage({ chapter, chapters, logo }) {
-  const content = renderManualMarkdown(chapter.markdown);
+  const content = renderManualMarkdown(chapter.markdown, { anchorSource: chapter.anchorSource });
   const body = `${renderBrand(logo)}
 <main class="main">
   <div class="manual manual--chapter">

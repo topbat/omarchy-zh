@@ -44,9 +44,9 @@ Omarchy 内置支持 **Intel Macs**。目前存在一些已知限制，但只要
 #### 配备 T1 芯片的设备
 
 Apple T1 芯片于 2016 年末推出，专用于第一代带 Touch Bar 的 MacBook Pro 机型。
-- MacBook Pro 13-inch (2016, two Thunderbolt 3 ports) – Model: A1706
-- MacBook Pro 13-inch (2016, four Thunderbolt 3 ports) – Model: A1708
-- MacBook Pro 15-inch (2016) – Model: A1707
+- MacBook Pro 13 英寸（2016 年，两个 Thunderbolt 3 端口）– 型号：A1706
+- MacBook Pro 13 英寸（2016 年，四个 Thunderbolt 3 端口）– 型号：A1708
+- MacBook Pro 15 英寸（2016 年）– 型号：A1707
 
 #### 已知问题
 
@@ -55,17 +55,17 @@ Apple T1 芯片于 2016 年末推出，专用于第一代带 Touch Bar 的 MacBo
 
 #### 配备 T2 芯片的设备
 
-Apple T2 Security Chip 于 2017 年推出。随着 2020 年 Apple silicon（M-series chips）的过渡，T2 芯片停止使用。
+Apple T2 安全芯片于 2017 年推出。随着 2020 年 Apple 芯片（M 系列芯片）的过渡，T2 芯片停止使用。
 
-- iMac Pro (2017) – Model: A1862
-- MacBook Pro 13-inch (2018, four Thunderbolt 3 ports) – Model: A1989
-- MacBook Pro 15-inch (2018) – Model: A1990
-- MacBook Air (Retina, 13-inch, 2018) – Model: A1932
-- Mac mini (2018) – Model: A1998
-- MacBook Pro 13-inch (2019, two Thunderbolt 3 ports) – Model: A2159
-- MacBook Pro 13-inch (2019, four Thunderbolt 3 ports) – Model: A2178
-- MacBook Pro 15-inch (2019) – Model: A1990
-- MacBook Pro 13-inch (2020, two Thunderbolt 3 ports) – Model: A2265
-- MacBook Pro 15-inch (2020) – Model: A1990
+- iMac Pro（2017 年）– 型号：A1862
+- MacBook Pro 13 英寸（2018 年，四个 Thunderbolt 3 端口）– 型号：A1989
+- MacBook Pro 15 英寸（2018 年）– 型号：A1990
+- MacBook Air（Retina，13 英寸，2018 年）– 型号：A1932
+- Mac mini（2018 年）– 型号：A1998
+- MacBook Pro 13 英寸（2019 年，两个 Thunderbolt 3 端口）– 型号：A2159
+- MacBook Pro 13 英寸（2019 年，四个 Thunderbolt 3 端口）– 型号：A2178
+- MacBook Pro 15 英寸（2019 年）– 型号：A1990
+- MacBook Pro 13 英寸（2020 年，两个 Thunderbolt 3 端口）– 型号：A2265
+- MacBook Pro 15 英寸（2020 年）– 型号：A1990
 
 对于这些型号，安装程序会自动设置经过修补的 `linux-t2` 内核、T2 音频配置、Apple 的 Broadcom Wi-Fi/Bluetooth 固件，以及通过 `t2fanrd` 实现的风扇控制。Touch Bar 使用内核内置的 Boot Camp 风格支持运行。

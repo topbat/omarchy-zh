@@ -40,7 +40,7 @@ RetroArch 已经完全预配置了精美的 CRT Royale 着色器，可呈现完�
 
  ![gaming-xbox-cloud](images/gaming-xbox-cloud.webp)
 
-## NVIDIA GeForce Now
+## NVIDIA GeForce Now 云游戏
 
 从 Omarchy 菜单（`Super + Space`）中选择 _Install > Gaming > NVIDIA GeForce NOW_ 来安装云游戏服务 [NVIDIA GeForce NOW](https://www.nvidia.com/en-us/geforce-now/)。这也是游玩无法在 Linux 上原生运行的游戏的好方法。
 
@@ -78,7 +78,7 @@ Omarchy 预装了 [Moonlight 客户端](https://github.com/moonlight-stream/moon
 
 安装过程有些不顺畅，有时看起来像是什么也没有发生；请耐心等待，它正在后台运行。
 
-## Heroic Launcher（Epic Games）
+## Heroic Launcher（Epic Games 游戏启动器）
 
 从 Omarchy 菜单（`Super + Space`）中选择 _Install > Gaming > Heroic (Epic Games)_ 来安装 [Heroic Launcher](https://heroicgameslauncher.com/)。Heroic 可让你运行不依赖反作弊机制的 Epic Games 游戏，例如 OddSparks，还能运行来自 GOG 和 Amazon Prime Gaming 的游戏。遗憾的是，这意味着无法游玩 Fortnite 和 Rocket League；在 Tim Sweeney 支持 Linux 之前，这已经是最接近的方案。
 

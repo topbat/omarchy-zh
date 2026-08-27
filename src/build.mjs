@@ -28,20 +28,26 @@ export async function buildSite({
 } = {}) {
   const translationsDirectory = path.join(rootDirectory, 'translations');
   const chapters = await loadChapters(translationsDirectory);
+  const upstreamChapters = await loadChapters(path.join(rootDirectory, 'upstream', 'manual'));
+  const upstreamByFilename = new Map(upstreamChapters.map((chapter) => [chapter.filename, chapter]));
+  const localizedChapters = chapters.map((chapter) => ({
+    ...chapter,
+    anchorSource: upstreamByFilename.get(chapter.filename)?.markdown,
+  }));
   const logo = await readFile(path.join(rootDirectory, 'upstream', 'logo.txt'), 'utf8');
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });
 
-  for (const chapter of chapters) {
+  for (const chapter of localizedChapters) {
     await writeRoute(
       outputDirectory,
       chapterRoute(chapter),
-      renderChapterPage({ chapter, chapters, logo }),
+      renderChapterPage({ chapter, chapters: localizedChapters, logo }),
     );
   }
 
-  await writeRoute(outputDirectory, tocRoute(), renderTocPage({ chapters, logo }));
+  await writeRoute(outputDirectory, tocRoute(), renderTocPage({ chapters: localizedChapters, logo }));
 
   await Promise.all([
     copyIfPresent(path.join(rootDirectory, 'assets'), path.join(outputDirectory, 'assets')),
@@ -52,7 +58,7 @@ export async function buildSite({
   await mkdir(path.join(outputDirectory, 'assets'), { recursive: true });
   await writeFile(
     path.join(outputDirectory, 'assets', 'search-index.json'),
-    JSON.stringify(buildSearchIndex(chapters)),
+    JSON.stringify(buildSearchIndex(localizedChapters)),
     'utf8',
   );
 

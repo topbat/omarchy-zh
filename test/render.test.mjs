@@ -16,6 +16,14 @@ test('renderManualMarkdown adds stable heading anchors', () => {
   assert.match(html, /class="manual__heading-link"/);
 });
 
+test('renderManualMarkdown keeps official English anchor aliases after headings are translated', () => {
+  const html = renderManualMarkdown('# 中文标题\n\n## 快速补全', {
+    anchorSource: '# English title\n\n## Quick completions',
+  });
+  assert.match(html, /id="快速补全"/);
+  assert.match(html, /id="quick-completions"/);
+});
+
 test('chapter page includes localized shell, complete navigation, and pagination', () => {
   const html = renderChapterPage({
     chapter: chapters[0],
@@ -39,4 +47,3 @@ test('table of contents renders all chapters in a numbered index', () => {
   assert.match(html, /欢迎使用 Omarchy！/);
   assert.match(html, /章节 51/);
 });
-

@@ -17,6 +17,13 @@
   scroll-margin-top: 1em;
 }
 
+.heading-alias {
+  display: block;
+  height: 0;
+  scroll-margin-top: 1em;
+  visibility: hidden;
+}
+
 .manual__content a,
 .manual__pagination a,
 .manual__index a {
@@ -92,4 +99,3 @@
     gap: var(--space-medium);
   }
 }
-
