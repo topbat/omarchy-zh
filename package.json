@@ -1,0 +1,19 @@
+{
+  "name": "omarchy-manual-zh",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "非官方 Omarchy 简体中文手册",
+  "scripts": {
+    "test": "node --test",
+    "build": "node src/build.mjs",
+    "check": "node src/validate.mjs",
+    "dev": "node src/serve.mjs"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0"
+  }
+}
+
