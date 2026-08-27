@@ -1,0 +1,21 @@
+Official source: https://omarchy.org/manual/
+Desktop viewport: 1440 x 900
+Mobile viewport: 390 x 844
+
+Desktop chapter layout:
+- Global ASCII Omarchy logo and "The Manual" banner.
+- Sticky chapter sidebar with search field and 01-51 numbered links.
+- Main content column with page heading, rendered Markdown, and previous/contents/next pagination.
+
+Mobile chapter layout:
+- Global ASCII Omarchy logo and "The Manual" banner.
+- Sidebar chapter list hidden below 64em.
+- Single content column with contents/previous/next pagination.
+
+Captured routes and states:
+- /manual/ top, middle, and bottom
+- /manual/toc/ full page
+- /manual/navigation/ top, middle, and full page
+- /manual/hotkeys/ top
+- Desktop and mobile responsive states
+
