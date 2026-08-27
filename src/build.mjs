@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { loadChapters } from './content.mjs';
 import { renderChapterPage, renderTocPage } from './render.mjs';
 import { chapterRoute, outputPathForRoute, tocRoute } from './routes.mjs';
+import { buildSearchIndex } from './search.mjs';
 
 async function writeRoute(outputDirectory, route, html) {
   const outputPath = path.join(outputDirectory, outputPathForRoute(route));
@@ -48,6 +49,13 @@ export async function buildSite({
     copyIfPresent(path.join(rootDirectory, 'upstream', 'themes'), path.join(outputDirectory, 'themes')),
   ]);
 
+  await mkdir(path.join(outputDirectory, 'assets'), { recursive: true });
+  await writeFile(
+    path.join(outputDirectory, 'assets', 'search-index.json'),
+    JSON.stringify(buildSearchIndex(chapters)),
+    'utf8',
+  );
+
   return {
     chapterCount: chapters.length,
     htmlPageCount: chapters.length + 1,
@@ -62,4 +70,3 @@ if (isDirectRun) {
   const result = await buildSite();
   console.log(`Built ${result.htmlPageCount} pages in ${result.outputDirectory}`);
 }
-

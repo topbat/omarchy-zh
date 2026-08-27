@@ -33,10 +33,12 @@ test('buildSite emits every chapter, the table of contents, and local assets', a
 
     const home = await readFile(path.join(outputDirectory, 'manual', 'index.html'), 'utf8');
     assert.match(home, /欢迎使用 Omarchy/);
+    const searchIndex = JSON.parse(await readFile(path.join(outputDirectory, 'assets', 'search-index.json'), 'utf8'));
+    assert.equal(searchIndex.length, 51);
+    assert.equal(searchIndex[0].url, '/manual/');
     await readFile(path.join(outputDirectory, 'manual', 'images', 'navigation-stacked.webp'));
     await readFile(path.join(outputDirectory, 'themes', 'tokyo-night', 'preview.png'));
   } finally {
     await rm(outputDirectory, { recursive: true, force: true });
   }
 });
-

@@ -92,6 +92,7 @@ function stylesheetLinks() {
     'root',
     'fonts',
     'elements',
+    'footer',
     'header',
     'main',
     'pre',
@@ -121,18 +122,18 @@ ${body}
 }
 
 function renderBrand(logo) {
-  return `<a class="brand" href="/manual/" aria-label="Omarchy 中文手册首页"><pre aria-hidden="true">${escapeHtml(logo.trim())}</pre></a>
-<header class="site-header"><h1>中文手册</h1></header>`;
+  return `<div class="pre"><a href="/manual/" aria-label="Omarchy 中文手册首页"><pre aria-hidden="true">${escapeHtml(logo.trim())}</pre></a></div>
+<header class="header"><h1>中文手册</h1></header>`;
 }
 
 function renderSearch() {
   return `<search class="search" data-search>
   <label class="visually-hidden" for="manual-search">搜索手册</label>
   <div class="search__field">
-    <input id="manual-search" type="search" autocomplete="off" placeholder="搜索" aria-expanded="false" aria-controls="search-results">
-    <kbd>/</kbd>
+    <input class="search__input" id="manual-search" type="search" role="combobox" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="搜索" aria-label="搜索手册" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results">
+    <kbd class="search__shortcut">/</kbd>
   </div>
-  <ol id="search-results" class="search__results" hidden></ol>
+  <div id="search-results" class="search__results" role="listbox" aria-label="搜索结果" hidden></div>
 </search>`;
 }
 
@@ -161,16 +162,18 @@ function renderPagination(chapter, chapters) {
 export function renderChapterPage({ chapter, chapters, logo }) {
   const content = renderManualMarkdown(chapter.markdown);
   const body = `${renderBrand(logo)}
-<main class="manual manual--chapter">
-  <aside class="manual__sidebar">
-    ${renderSearch()}
-    ${renderChapterLinks(chapters, chapter)}
-  </aside>
-  <article class="manual__content">
-    ${content}
-    ${renderPagination(chapter, chapters)}
-    <footer class="translation-note">非官方简体中文翻译 · <a href="https://omarchy.org/manual/">英文原版</a></footer>
-  </article>
+<main class="main">
+  <div class="manual manual--chapter">
+    <aside class="manual__sidebar">
+      ${renderSearch()}
+      ${renderChapterLinks(chapters, chapter)}
+    </aside>
+    <article class="manual__content">
+      ${content}
+      ${renderPagination(chapter, chapters)}
+      <footer class="translation-note">非官方简体中文翻译 · <a href="https://omarchy.org/manual/">英文原版</a></footer>
+    </article>
+  </div>
 </main>`;
   return renderShell({
     title: chapter.title,
@@ -182,14 +185,16 @@ export function renderChapterPage({ chapter, chapters, logo }) {
 
 export function renderTocPage({ chapters, logo }) {
   const body = `${renderBrand(logo)}
-<main class="manual manual--index">
-  ${renderSearch()}
-  <nav class="manual__index" aria-label="完整目录">
-    <ol>
-      ${chapters.map((chapter) => `<li><a class="manual__index-link" href="${chapterRoute(chapter)}">${escapeHtml(chapter.title)}</a></li>`).join('\n      ')}
-    </ol>
-  </nav>
-  <footer class="translation-note translation-note--index">非官方简体中文翻译 · <a href="https://omarchy.org/manual/">英文原版</a></footer>
+<main class="main">
+  <div class="manual manual--index">
+    ${renderSearch()}
+    <nav class="manual__index" aria-label="完整目录">
+      <ol>
+        ${chapters.map((chapter) => `<li><a class="manual__index-link" href="${chapterRoute(chapter)}">${escapeHtml(chapter.title)}</a></li>`).join('\n        ')}
+      </ol>
+    </nav>
+    <footer class="translation-note translation-note--index">非官方简体中文翻译 · <a href="https://omarchy.org/manual/">英文原版</a></footer>
+  </div>
 </main>`;
   return renderShell({
     title: '目录',
@@ -198,4 +203,3 @@ export function renderTocPage({ chapters, logo }) {
     pageClass: 'manual-index-page',
   });
 }
-
