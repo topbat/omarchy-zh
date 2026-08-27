@@ -1,0 +1,17 @@
+{
+  "Omarchy": "Omarchy",
+  "Arch Linux": "Arch Linux",
+  "Hyprland": "Hyprland",
+  "Quickshell": "Quickshell",
+  "tiling window manager": "平铺式窗口管理器",
+  "scratchpad workspace": "暂存工作区",
+  "scrolling layout": "滚动布局",
+  "dwindle layout": "Dwindle 布局",
+  "terminal user interface": "终端用户界面（TUI）",
+  "graphical user interface": "图形用户界面（GUI）",
+  "dotfiles": "dotfiles（配置文件）",
+  "keybinding": "快捷键绑定",
+  "hotkey": "快捷键",
+  "system snapshot": "系统快照"
+}
+

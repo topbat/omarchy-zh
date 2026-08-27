@@ -22,9 +22,9 @@
 
 **Steps:**
 1. 用 `agent-browser` 分别以 1440×900 和 390×844 打开官方手册，采集首页、目录页、图片密集页、代码密集页与交互状态。
-2. 从 `basecamp/omarchy` 的 `quattro` 分支固定当前提交，复制 51 个 Markdown、44 张图片和许可证。
+2. 从 `basecamp/omarchy` 的 `quattro` 分支固定当前提交，复制 51 个 Markdown、44 张手册 WebP、38 张主题 PNG 和许可证。
 3. 记录提交 SHA，不在后续构建中自动更新。
-4. 运行计数命令，期望 51 个 Markdown、44 张 WebP、39 个代码块和 82 个图片引用。
+4. 运行计数命令，期望 51 个 Markdown、82 张被引用图片、39 个代码块和 82 个图片引用。
 5. 提交：`chore: snapshot official omarchy manual`。
 
 ### Task 2: 先写内容模型与路由测试
@@ -134,4 +134,3 @@
 4. 检查 `git status`、提交范围和敏感信息。
 5. 使用 `finishing-a-development-branch` 流程将功能分支合并回 `main`。
 6. 在项目根目录重新安装、测试、构建和启动预览，交付可点击本地地址。
-
